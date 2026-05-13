@@ -32,7 +32,7 @@ export default defineConfig([
       "@typescript-eslint/no-explicit-any": "off",
 
       "capitalized-comments": [
-        "error",
+        "warn",
         "always",
         {
           ignorePattern: "pragma|ignored",
