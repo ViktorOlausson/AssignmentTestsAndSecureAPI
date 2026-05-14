@@ -32,6 +32,18 @@ function formatRating(reviews: Review[]) {
   return `${(total / reviews.length).toFixed(1)} average`;
 }
 
+function getReviewRatingClass(rating: number) {
+  if (rating > 3) {
+    return "review-rating good";
+  }
+
+  if (rating === 3) {
+    return "review-rating okay";
+  }
+
+  return "review-rating bad";
+}
+
 export function Gyms() {
   const [state, setState] = useState<LoadState>({ status: "loading" });
 
@@ -133,7 +145,7 @@ export function Gyms() {
                     <div className="review-list">
                       {gym.reviews.map((review) => (
                         <div className="review-item" key={review.id}>
-                          <strong>{review.rating}/5</strong>
+                          <strong className={getReviewRatingClass(review.rating)}>{review.rating}/5</strong>
                           <p>{review.comment}</p>
                         </div>
                       ))}

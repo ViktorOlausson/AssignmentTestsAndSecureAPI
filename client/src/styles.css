@@ -429,16 +429,27 @@ h1 {
   background: #f5f7fb;
 }
 
-.review-item strong {
-  color: #b24f37;
-  font-size: 0.9rem;
-}
-
 .review-item p,
 .muted-text {
   margin: 0;
   color: #5c6678;
   line-height: 1.45;
+}
+
+.review-rating {
+  font-size: 0.9rem;
+}
+
+.review-rating.good {
+  color: #18764f;
+}
+
+.review-rating.okay {
+  color: #a06a00;
+}
+
+.review-rating.bad {
+  color: #b13a2f;
 }
 
 .form-shell {
