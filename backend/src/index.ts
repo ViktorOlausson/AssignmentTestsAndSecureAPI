@@ -6,10 +6,7 @@ import { authMiddleware, requiresAuth } from "./auth.js";
 
 dotenv.config({ path: ["backend/.env", ".env"], quiet: true });
 
-// const app = createApp();
-const port = process.env.PORT || 3000;
-
-const app = express();
+export const app = express();
 
 app.use(express.json());
 
@@ -105,8 +102,4 @@ app.get("/profile", requiresAuth(), (req, res) => {
   res.status(200).json({
     user: req.oidc.user,
   });
-});
-
-app.listen(port, () => {
-  console.log(`API running on http://localhost:${port}`);
 });
