@@ -5,7 +5,7 @@ dotenv.config({ path: ["backend/.env", ".env"], quiet: true });
 
 const { auth, requiresAuth } = expressOpenIdConnect;
 
-const requiredEnv = (name) => {
+const requiredEnv = (name: string): string => {
   const value = process.env[name];
 
   if (!value) {
@@ -14,6 +14,8 @@ const requiredEnv = (name) => {
 
   return value;
 };
+
+const clientSecret = process.env.AUTH0_CLIENT_SECRET;
 
 // Auth0 configuration
 const config = {
@@ -24,6 +26,16 @@ const config = {
   baseURL: requiredEnv("AUTH0_BASE_URL"),
   clientID: requiredEnv("AUTH0_CLIENT_ID"),
   issuerBaseURL: requiredEnv("AUTH0_ISSUER_BASE_URL"),
+  ...(clientSecret
+    ? {
+        clientSecret,
+        authorizationParams: {
+          response_type: "code",
+          response_mode: "query",
+          scope: "openid profile email",
+        },
+      }
+    : {}),
 };
 export const authMiddleware = auth(config);
 export { requiresAuth };
