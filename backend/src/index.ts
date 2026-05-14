@@ -19,6 +19,14 @@ app.use(
 
 app.use(authMiddleware);
 
+app.get("/login", (req, res) => {
+  const frontendOrigin = process.env.FRONTEND_ORIGIN || "http://localhost:5173";
+
+  res.oidc.login({
+    returnTo: `${frontendOrigin}/profile`,
+  });
+});
+
 app.get("/ping", (req, res) => {
   res.json({ message: "pong" });
 });

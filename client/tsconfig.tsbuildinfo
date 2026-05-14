@@ -1,0 +1,1 @@
+{"root":["./src/main.tsx","./src/vite-env.d.ts","./src/components/requirelogin.tsx","./src/components/topmenu.tsx","./src/hooks/usesession.ts","./src/routes/gyms.tsx","./src/routes/login.tsx","./src/routes/newgym.tsx","./src/routes/newreview.tsx","./src/routes/profile.tsx"],"version":"6.0.3"}

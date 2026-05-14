@@ -16,6 +16,7 @@ const requiredEnv = (name: string): string => {
 };
 
 const clientSecret = process.env.AUTH0_CLIENT_SECRET;
+const frontendOrigin = process.env.FRONTEND_ORIGIN || "http://localhost:5173";
 
 // Auth0 configuration
 const config = {
@@ -26,6 +27,10 @@ const config = {
   baseURL: requiredEnv("AUTH0_BASE_URL"),
   clientID: requiredEnv("AUTH0_CLIENT_ID"),
   issuerBaseURL: requiredEnv("AUTH0_ISSUER_BASE_URL"),
+  routes: {
+    login: false as const,
+    postLogoutRedirect: `${frontendOrigin}/login`,
+  },
   ...(clientSecret
     ? {
         clientSecret,
