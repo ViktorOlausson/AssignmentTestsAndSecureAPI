@@ -1,0 +1,123 @@
+:root {
+  color: #1d2433;
+  background: #f5f7fb;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+  background:
+    linear-gradient(135deg, rgba(27, 118, 110, 0.13), transparent 38%),
+    linear-gradient(315deg, rgba(225, 91, 65, 0.14), transparent 34%),
+    #f5f7fb;
+}
+
+.login-panel {
+  width: min(100%, 420px);
+  display: grid;
+  gap: 24px;
+  padding: 34px;
+  border: 1px solid #dce3ef;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 70px rgba(31, 45, 61, 0.14);
+}
+
+.brand-mark {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #ffffff;
+  background: #1b766e;
+}
+
+.login-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #b24f37;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: #141b2d;
+  font-size: 2.4rem;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.supporting-copy {
+  margin: 0;
+  color: #5c6678;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.login-button {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 18px;
+  border-radius: 8px;
+  color: #ffffff;
+  background: #1d2433;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    background 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.login-button:hover {
+  background: #30394c;
+  box-shadow: 0 12px 28px rgba(29, 36, 51, 0.2);
+  transform: translateY(-1px);
+}
+
+.login-button:focus-visible {
+  outline: 3px solid rgba(27, 118, 110, 0.35);
+  outline-offset: 3px;
+}
+
+@media (max-width: 460px) {
+  .login-panel {
+    padding: 26px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+}

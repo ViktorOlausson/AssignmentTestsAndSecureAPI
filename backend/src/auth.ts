@@ -26,6 +26,9 @@ const config = {
   baseURL: requiredEnv("AUTH0_BASE_URL"),
   clientID: requiredEnv("AUTH0_CLIENT_ID"),
   issuerBaseURL: requiredEnv("AUTH0_ISSUER_BASE_URL"),
+  routes: {
+    login: false as const,
+  },
   ...(clientSecret
     ? {
         clientSecret,
