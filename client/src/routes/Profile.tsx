@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Dumbbell, LogOut, Mail, ShieldCheck, UserRound } from "lucide-react";
+import { Mail, ShieldCheck, UserRound } from "lucide-react";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
 
@@ -112,19 +112,6 @@ export function Profile() {
   return (
     <main className="dashboard-page">
       <section className="dashboard-shell" aria-labelledby="profile-title">
-        <header className="dashboard-header">
-          <div className="brand-line">
-            <div className="brand-mark small" aria-hidden="true">
-              <Dumbbell size={22} strokeWidth={2.4} />
-            </div>
-            <span>Gym Reviews</span>
-          </div>
-
-          <a className="icon-link" href={`${apiBaseUrl}/logout`} aria-label="Log out">
-            <LogOut size={20} strokeWidth={2.2} />
-          </a>
-        </header>
-
         <div className="profile-hero">
           {user.picture ? (
             <img className="avatar" src={user.picture} alt="" />
