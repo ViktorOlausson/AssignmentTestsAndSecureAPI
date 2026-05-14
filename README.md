@@ -124,6 +124,14 @@ npm test
 
 The project uses Vitest for both unit and integration tests.
 
+Tests use a separate SQLite database file:
+
+```text
+backend/test.db
+```
+
+This keeps local development data in `backend/dev.db` from being reset when tests run.
+
 Unit tests cover UI and utility logic in isolation without real network calls.
 
 Integration tests cover the API using `node:http`, including:

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DATABASE_URL: file:./dev.db
+      DATABASE_URL: file:./ci.db
       FRONTEND_ORIGIN: http://localhost:5173
       AUTH0_SECRET: ${{ secrets.AUTH0_SECRET || 'ci-test-secret-ci-test-secret-ci-test-secret' }}
       AUTH0_BASE_URL: http://localhost:3000
@@ -42,10 +42,6 @@ jobs:
 
       - name: Generate Prisma client
         run: npx prisma generate
-        working-directory: ./backend
-
-      - name: Apply database migrations
-        run: npx prisma migrate deploy
         working-directory: ./backend
 
       - name: Check backend TypeScript
