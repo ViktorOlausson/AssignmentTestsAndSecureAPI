@@ -1,0 +1,277 @@
+# Gym Review API
+
+Group Assignment 3: Building and securing a tested REST API.
+
+This project is a small full-stack Gym Review application with a tested REST API, Auth0 authentication, protected routes, and a React frontend.
+
+## Setup
+
+### Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd AssignmentTestsAndSecureAPI
+```
+
+### Install dependencies
+
+Install backend dependencies:
+
+```bash
+cd backend
+npm install
+```
+
+Install client dependencies:
+
+```bash
+cd ../client
+npm install
+```
+
+### Configure environment variables
+
+Create a backend `.env` file from the example:
+
+```bash
+cd backend
+cp .env.example .env
+```
+
+The backend needs these values:
+
+```env
+PORT=3000
+FRONTEND_ORIGIN=http://localhost:5173
+DATABASE_URL="file:./dev.db"
+
+AUTH0_SECRET=replace_me
+AUTH0_BASE_URL=http://localhost:3000
+AUTH0_CLIENT_ID=replace_me
+AUTH0_ISSUER_BASE_URL=https://your-domain.eu.auth0.com
+AUTH0_CLIENT_SECRET=replace_me_optional
+```
+
+Do not commit real `.env` values or Auth0 secrets.
+
+### Auth0 application settings
+
+In the Auth0 dashboard, configure the application with:
+
+```text
+Allowed Callback URLs:
+http://localhost:3000/callback
+
+Allowed Logout URLs:
+http://localhost:5173/login
+
+Allowed Web Origins:
+http://localhost:5173,http://localhost:3000
+```
+
+### Database setup
+
+Run Prisma migration and seed data:
+
+```bash
+cd backend
+npm run prisma:migrate
+npm run prisma:seed
+```
+
+### Run locally
+
+Start the backend:
+
+```bash
+cd backend
+npm run dev
+```
+
+Start the frontend:
+
+```bash
+cd client
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:5173
+```
+
+## API Routes
+
+| Method | Route | Access |
+| --- | --- | --- |
+| GET | `/gyms` | Public |
+| GET | `/gyms/:id` | Public |
+| POST | `/gyms` | Protected |
+| POST | `/gyms/:id/reviews` | Protected |
+| GET | `/profile` | Protected |
+
+Protected routes require an authenticated Auth0 session.
+
+## Testing
+
+Run backend tests:
+
+```bash
+cd backend
+npm test
+```
+
+The project uses Vitest for both unit and integration tests.
+
+Unit tests cover UI and utility logic in isolation without real network calls.
+
+Integration tests cover the API using `node:http`, including:
+
+- `GET /gyms`
+- `GET /gyms/:id`
+- `GET /gyms/:id` returning `404`
+- `POST /gyms` returning `401` when logged out
+- `POST /gyms/:id/reviews` returning `401` when logged out
+
+### Local Test Screenshot
+
+Add a screenshot of passing local tests here before submission:
+
+```text
+docs/screenshots/local-tests.png
+```
+
+### GitHub Actions Screenshot
+
+Add a screenshot of the passing GitHub Actions pipeline here before submission:
+
+```text
+docs/screenshots/github-actions.png
+```
+
+## Authentication
+
+This project uses **Auth0** with `express-openid-connect`.
+
+Auth0 was chosen because the assignment allows Auth0 session-based authentication, and it fits the backend/frontend setup well. The backend manages the login, callback, session cookie, and logout flow. The frontend redirects users to backend login/logout routes.
+
+Authentication is implemented in the backend with:
+
+- `authMiddleware`
+- `requiresAuth()`
+- `errorOnRequiredAuth: true`
+
+The protected API routes use `requiresAuth()`:
+
+- `POST /gyms`
+- `POST /gyms/:id/reviews`
+- `GET /profile`
+
+Unauthenticated users receive `401 Unauthorized` instead of being redirected.
+
+The frontend checks login state by calling:
+
+```text
+GET /profile
+```
+
+with:
+
+```ts
+credentials: "include"
+```
+
+Protected frontend routes and menu items are only shown when the user is logged in.
+
+## Security Decisions
+
+### No secrets in the repository
+
+Real Auth0 secrets and local environment values are kept in `.env`, which is ignored by Git. The repository includes `.env.example` to document required variables without exposing secrets.
+
+### Sensitive values are listed in `.env.example`
+
+The backend `.env.example` documents the required Auth0, database, and frontend origin settings so the project can be configured safely on another machine.
+
+### Protected routes return 401
+
+The backend uses `errorOnRequiredAuth: true`, so protected routes return `401 Unauthorized` when a user is not logged in. This is verified by integration tests.
+
+### CORS is restricted
+
+CORS is configured to allow only the frontend origin:
+
+```text
+http://localhost:5173
+```
+
+The API does not use a wildcard `*`, because authenticated requests use cookies and should only be allowed from the known frontend.
+
+### Tokens are not stored in localStorage
+
+The frontend does not store tokens in `localStorage`. Auth0 session handling is managed through secure session cookies by the backend middleware. This reduces the risk of token theft through client-side JavaScript.
+
+### Authenticated requests use credentials
+
+Frontend requests that need the logged-in session use:
+
+```ts
+credentials: "include"
+```
+
+This allows the browser to send the Auth0 session cookie to the backend.
+
+## Frontend
+
+The React frontend includes:
+
+- Login page
+- Profile dashboard
+- Public gyms page
+- Protected add gym page
+- Protected add review page
+- Login/logout navigation
+- Menu items that change based on login state
+- Loading and error states
+
+Public users can view gyms and reviews.
+
+Logged-in users can create gyms and reviews.
+
+## Reflections
+
+### Implementation choices
+
+We chose a `backend/` and `client/` folder structure to keep API and frontend code separated. The backend uses Express and Prisma with SQLite because the assignment focuses more on testing and authentication than database complexity.
+
+The frontend uses React with Vite and TypeScript. The protected pages are guarded on the client for user experience, while the backend still enforces real security with `requiresAuth()`.
+
+### Testing choices
+
+Vitest is used for both unit and integration tests so the test setup stays simple and consistent. Unit tests cover isolated UI logic. Integration tests start the Express app with `node:http` and test real API behavior.
+
+### Security choices
+
+Auth0 session-based authentication keeps tokens out of browser storage. Protected API routes are enforced on the backend, not only hidden in the frontend. CORS is restricted to the frontend origin so authenticated cookie requests are not accepted from arbitrary origins.
+
+### Challenges
+
+The most challenging parts were connecting Auth0 correctly with a separate React frontend and backend API, especially callback and logout URLs. Another challenge was making TypeScript, ESM, Prisma, and the test runner work together cleanly.
+
+### What we would improve
+
+With more time, we would add more authenticated success-case tests, improve form validation, add better test database isolation, and include a richer GitHub Actions test summary.
+
+## Submission Checklist
+
+- [ ] Backend dependencies install successfully
+- [ ] Client dependencies install successfully
+- [ ] `.env.example` is complete
+- [ ] No real secrets are committed
+- [ ] Backend tests pass locally
+- [ ] GitHub Actions pipeline passes
+- [ ] Local passing test screenshot added
+- [ ] GitHub Actions passing screenshot added
+- [ ] Auth0 callback/logout URLs configured
+- [ ] README reviewed before submission
