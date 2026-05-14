@@ -103,13 +103,13 @@ http://localhost:5173
 
 ## API Routes
 
-| Method | Route | Access |
-| --- | --- | --- |
-| GET | `/gyms` | Public |
-| GET | `/gyms/:id` | Public |
-| POST | `/gyms` | Protected |
-| POST | `/gyms/:id/reviews` | Protected |
-| GET | `/profile` | Protected |
+| Method | Route               | Access    |
+| ------ | ------------------- | --------- |
+| GET    | `/gyms`             | Public    |
+| GET    | `/gyms/:id`         | Public    |
+| POST   | `/gyms`             | Protected |
+| POST   | `/gyms/:id/reviews` | Protected |
+| GET    | `/profile`          | Protected |
 
 Protected routes require an authenticated Auth0 session.
 
@@ -179,7 +179,7 @@ GET /profile
 with:
 
 ```ts
-credentials: "include"
+credentials: "include";
 ```
 
 Protected frontend routes and menu items are only shown when the user is logged in.
@@ -217,7 +217,7 @@ The frontend does not store tokens in `localStorage`. Auth0 session handling is 
 Frontend requests that need the logged-in session use:
 
 ```ts
-credentials: "include"
+credentials: "include";
 ```
 
 This allows the browser to send the Auth0 session cookie to the backend.
@@ -259,19 +259,6 @@ Auth0 session-based authentication keeps tokens out of browser storage. Protecte
 
 The most challenging parts were connecting Auth0 correctly with a separate React frontend and backend API, especially callback and logout URLs. Another challenge was making TypeScript, ESM, Prisma, and the test runner work together cleanly.
 
-### What we would improve
+### What I would improve
 
 With more time, we would add more authenticated success-case tests, improve form validation, add better test database isolation, and include a richer GitHub Actions test summary.
-
-## Submission Checklist
-
-- [ ] Backend dependencies install successfully
-- [ ] Client dependencies install successfully
-- [ ] `.env.example` is complete
-- [ ] No real secrets are committed
-- [ ] Backend tests pass locally
-- [ ] GitHub Actions pipeline passes
-- [ ] Local passing test screenshot added
-- [ ] GitHub Actions passing screenshot added
-- [ ] Auth0 callback/logout URLs configured
-- [ ] README reviewed before submission
