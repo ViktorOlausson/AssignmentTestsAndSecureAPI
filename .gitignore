@@ -42,7 +42,6 @@ test/*.js
 .DS_Store
 
 slask.*
-*.yml
 *.env
 *.bkp
 
