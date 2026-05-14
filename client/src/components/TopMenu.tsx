@@ -22,11 +22,6 @@ export function TopMenu() {
           <span>Gyms</span>
         </NavLink>
 
-        <NavLink className="menu-link" to="/login">
-          <LogIn size={18} strokeWidth={2.2} />
-          <span>Login</span>
-        </NavLink>
-
         {isLoggedIn ? (
           <>
             <NavLink className="menu-link" to="/gyms/new">
@@ -51,7 +46,12 @@ export function TopMenu() {
               </span>
             </a>
           </>
-        ) : null}
+        ) : (
+          <NavLink className="menu-link" to="/login">
+            <LogIn size={18} strokeWidth={2.2} />
+            <span>Login</span>
+          </NavLink>
+        )}
       </nav>
     </header>
   );
