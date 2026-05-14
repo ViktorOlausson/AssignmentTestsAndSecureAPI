@@ -31,6 +31,18 @@ jobs:
         run: npm ci
         working-directory: ./backend
 
+      - name: Generate Prisma client
+        run: npx prisma generate
+        working-directory: ./backend
+        env:
+          DATABASE_URL: file:./dev.db
+
+      - name: Apply database migrations
+        run: npx prisma migrate deploy
+        working-directory: ./backend
+        env:
+          DATABASE_URL: file:./dev.db
+
       - name: Check backend TypeScript
         run: npx tsc --noEmit
         working-directory: ./backend
