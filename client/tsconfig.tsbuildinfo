@@ -1,1 +1,1 @@
-{"root":["./src/main.tsx","./src/vite-env.d.ts","./src/routes/login.tsx"],"version":"6.0.3"}
+{"root":["./src/main.tsx","./src/vite-env.d.ts","./src/routes/login.tsx","./src/routes/profile.tsx"],"version":"6.0.3"}
