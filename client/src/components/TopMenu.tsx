@@ -1,36 +1,11 @@
-import { useEffect, useState } from "react";
-import { Dumbbell, LogIn, LogOut, UserRound } from "lucide-react";
+import { CirclePlus, Dumbbell, LogIn, LogOut, MapPinned, MessageSquareText, UserRound } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useSession } from "../hooks/useSession";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
 
 export function TopMenu() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    async function checkSession() {
-      try {
-        const response = await fetch(`${apiBaseUrl}/profile`, {
-          credentials: "include",
-          signal: controller.signal,
-        });
-
-        setIsLoggedIn(response.ok);
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return;
-        }
-
-        setIsLoggedIn(false);
-      }
-    }
-
-    void checkSession();
-
-    return () => controller.abort();
-  }, []);
+  const isLoggedIn = useSession() === "authenticated";
 
   return (
     <header className="top-menu">
@@ -42,6 +17,11 @@ export function TopMenu() {
       </NavLink>
 
       <nav className="top-menu-nav" aria-label="Primary navigation">
+        <NavLink className="menu-link" to="/gyms" end>
+          <MapPinned size={18} strokeWidth={2.2} />
+          <span>Gyms</span>
+        </NavLink>
+
         <NavLink className="menu-link" to="/login">
           <LogIn size={18} strokeWidth={2.2} />
           <span>Login</span>
@@ -49,6 +29,16 @@ export function TopMenu() {
 
         {isLoggedIn ? (
           <>
+            <NavLink className="menu-link" to="/gyms/new">
+              <CirclePlus size={18} strokeWidth={2.2} />
+              <span>Add Gym</span>
+            </NavLink>
+
+            <NavLink className="menu-link" to="/reviews/new">
+              <MessageSquareText size={18} strokeWidth={2.2} />
+              <span>Add Review</span>
+            </NavLink>
+
             <NavLink className="menu-link" to="/profile">
               <UserRound size={18} strokeWidth={2.2} />
               <span>Profile</span>
