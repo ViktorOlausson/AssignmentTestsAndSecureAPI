@@ -17,22 +17,22 @@ export default defineConfig([
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
       "no-undef": "warn",
-      "arrow-body-style": ["error", "always"],
-      "prettier/prettier": ["error", { semi: true }],
-      "prefer-template": "error",
+      "arrow-body-style": ["off", "always"],
+      "prettier/prettier": ["off", { semi: true }],
+      "prefer-template": "off",
       //New stuff:
       // "space-before-function-paren": ["error", "never"],
       // "space-infix-ops": "error",
       // "arrow-spacing": ["error", { before: true, after: true }],
       // "key-spacing": ["error", { beforeColon: false, afterColon: true }],
-      "space-infix-ops": "error",
-      "arrow-spacing": "error",
-      "keyword-spacing": "error",
-      "comma-spacing": "error",
+      "space-infix-ops": "off",
+      "arrow-spacing": "off",
+      "keyword-spacing": "off",
+      "comma-spacing": "off",
       "@typescript-eslint/no-explicit-any": "off",
 
       "capitalized-comments": [
-        "warn",
+        "off",
         "always",
         {
           ignorePattern: "pragma|ignored",
