@@ -6,3 +6,4 @@ node_modules
 .test-runs/
 *.db
 *.db-journal
+dev.db
