@@ -70,5 +70,5 @@ const createAuth0Config = () => {
   };
 };
 
-export const authMiddleware = isTest ? testAuthMiddleware : auth(createAuth0Config());
-export const requiresAuth = isTest ? testRequiresAuth : auth0RequiresAuth;
+export const authMiddleware: RequestHandler = isTest ? testAuthMiddleware : auth(createAuth0Config());
+export const requiresAuth: () => RequestHandler = isTest ? testRequiresAuth : auth0RequiresAuth;

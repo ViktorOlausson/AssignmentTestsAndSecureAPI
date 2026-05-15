@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, beforeEach, afterAll } from "vitest";
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import http from "node:http";
 import type { AddressInfo } from "node:net";
 import { app } from "../../src/index.js";
@@ -6,6 +6,8 @@ import { prisma } from "../../src/prisma.js";
 
 let server: http.Server;
 let baseUrl: string;
+let testGymId: number;
+const createdGymIds: number[] = [];
 
 function request(path: string, options: RequestInit = {}) {
   return fetch(`${baseUrl}${path}`, options);
@@ -22,27 +24,33 @@ describe("Gym API integration tests", () => {
         resolve();
       });
     });
-  });
 
-  beforeEach(async () => {
-    await prisma.review.deleteMany();
-    await prisma.gym.deleteMany();
-
-    await prisma.gym.createMany({
-      data: [
-        {
-          name: "Iron House Gym",
-          location: "Stockholm",
-        },
-        {
-          name: "Nordic Fitness",
-          location: "Göteborg",
-        },
-      ],
+    const testGym = await prisma.gym.create({
+      data: {
+        name: "Integration Test Gym",
+        location: "Stockholm",
+      },
     });
+
+    testGymId = testGym.id;
+    createdGymIds.push(testGym.id);
   });
 
   afterAll(async () => {
+    await prisma.review.deleteMany({
+      where: {
+        gymId: {
+          in: createdGymIds,
+        },
+      },
+    });
+    await prisma.gym.deleteMany({
+      where: {
+        id: {
+          in: createdGymIds,
+        },
+      },
+    });
     await new Promise<void>((resolve) => server.close(() => resolve()));
     await prisma.$disconnect();
   });
@@ -53,18 +61,14 @@ describe("Gym API integration tests", () => {
 
     expect(res.status).toBe(200);
     expect(Array.isArray(data)).toBe(true);
-    expect(data.length).toBe(2);
   });
 
   it("GET /gyms/:id returns one gym", async () => {
-    const gymsRes = await request("/gyms");
-    const gyms = await gymsRes.json();
-
-    const res = await request(`/gyms/${gyms[0].id}`);
+    const res = await request(`/gyms/${testGymId}`);
     const data = await res.json();
 
     expect(res.status).toBe(200);
-    expect(data.name).toBe("Iron House Gym");
+    expect(data.name).toBe("Integration Test Gym");
   });
 
   it("GET /gyms/:id returns 404 for unknown ID", async () => {
@@ -108,13 +112,11 @@ describe("Gym API integration tests", () => {
       location: "Uppsala",
     });
     expect(typeof data.id).toBe("number");
+    createdGymIds.push(data.id);
   });
 
   it("POST /gyms/:id/reviews without login returns 401", async () => {
-    const gymsRes = await request("/gyms");
-    const gyms = await gymsRes.json();
-
-    const res = await request(`/gyms/${gyms[0].id}/reviews`, {
+    const res = await request(`/gyms/${testGymId}/reviews`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
