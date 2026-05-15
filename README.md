@@ -147,22 +147,6 @@ Integration tests cover the API using `node:http`, including:
 - `POST /gyms` returning `401` when logged out
 - `POST /gyms/:id/reviews` returning `401` when logged out
 
-### Local Test Screenshot
-
-Add a screenshot of passing local tests here before submission:
-
-```text
-docs/screenshots/local-tests.png
-```
-
-### GitHub Actions Screenshot
-
-Add a screenshot of the passing GitHub Actions pipeline here before submission:
-
-```text
-docs/screenshots/github-actions.png
-```
-
 ## Authentication
 
 This project uses **Auth0** with `express-openid-connect`.
