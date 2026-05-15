@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Mail, ShieldCheck, UserRound } from "lucide-react";
+import { LoadingPage } from "../components/LoadingPanel";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
 
@@ -61,13 +62,7 @@ export function Profile() {
   }, []);
 
   if (state.status === "loading") {
-    return (
-      <main className="dashboard-page">
-        <section className="dashboard-shell">
-          <div className="loading-panel">Loading profile...</div>
-        </section>
-      </main>
-    );
+    return <LoadingPage />;
   }
 
   if (state.status === "unauthenticated") {

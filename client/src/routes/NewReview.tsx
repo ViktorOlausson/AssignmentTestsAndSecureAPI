@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { MessageSquareText } from "lucide-react";
+import { LoadingPage } from "../components/LoadingPanel";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
 
@@ -82,13 +83,7 @@ export function NewReview() {
   }
 
   if (loadState.status === "loading") {
-    return (
-      <main className="dashboard-page">
-        <section className="dashboard-shell">
-          <div className="loading-panel">Loading gyms...</div>
-        </section>
-      </main>
-    );
+    return <LoadingPage />;
   }
 
   if (loadState.status === "error") {
@@ -153,7 +148,11 @@ export function NewReview() {
             ) : null}
 
             <button className="submit-button" type="submit" disabled={submitState.status === "submitting"}>
-              <MessageSquareText size={20} strokeWidth={2.2} />
+              {submitState.status === "submitting" ? (
+                <span className="button-spinner" aria-hidden="true" />
+              ) : (
+                <MessageSquareText size={20} strokeWidth={2.2} />
+              )}
               {submitState.status === "submitting" ? "Creating..." : "Create review"}
             </button>
           </form>
