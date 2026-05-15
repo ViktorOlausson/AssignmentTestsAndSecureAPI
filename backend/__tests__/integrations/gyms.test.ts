@@ -88,6 +88,28 @@ describe("Gym API integration tests", () => {
     expect(res.status).toBe(401);
   });
 
+  it("POST /gyms with a valid test session returns 201", async () => {
+    const res = await request("/gyms", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-test-user": "true",
+      },
+      body: JSON.stringify({
+        name: "Session Strength",
+        location: "Uppsala",
+      }),
+    });
+    const data = await res.json();
+
+    expect(res.status).toBe(201);
+    expect(data).toMatchObject({
+      name: "Session Strength",
+      location: "Uppsala",
+    });
+    expect(typeof data.id).toBe("number");
+  });
+
   it("POST /gyms/:id/reviews without login returns 401", async () => {
     const gymsRes = await request("/gyms");
     const gyms = await gymsRes.json();
