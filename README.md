@@ -60,13 +60,18 @@ In the Auth0 dashboard, configure the application with:
 
 ```text
 Allowed Callback URLs:
-http://localhost:3000/callback
+http://localhost:3000/callback, http://localhost:5173/callback, http://localhost:5173/login
 
 Allowed Logout URLs:
 http://localhost:5173/login
 
 Allowed Web Origins:
-http://localhost:5173,http://localhost:3000
+http://localhost:5173/login
+
+Allowed Origins(CORS):
+http://localhost:5173, http://localhost:5173/login
+
+
 ```
 
 ### Database setup
