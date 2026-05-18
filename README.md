@@ -235,27 +235,3 @@ The React frontend includes:
 Public users can view gyms and reviews.
 
 Logged-in users can create gyms and reviews.
-
-## Reflections
-
-### Implementation choices
-
-We chose a `backend/` and `client/` folder structure to keep API and frontend code separated. The backend uses Express and Prisma with SQLite because the assignment focuses more on testing and authentication than database complexity.
-
-The frontend uses React with Vite and TypeScript. The protected pages are guarded on the client for user experience, while the backend still enforces real security with `requiresAuth()`.
-
-### Testing choices
-
-Vitest is used for both unit and integration tests so the test setup stays simple and consistent. Unit tests cover isolated UI logic. Integration tests start the Express app with `node:http` and test real API behavior.
-
-### Security choices
-
-Auth0 session-based authentication keeps tokens out of browser storage. Protected API routes are enforced on the backend, not only hidden in the frontend. CORS is restricted to the frontend origin so authenticated cookie requests are not accepted from arbitrary origins.
-
-### Challenges
-
-The most challenging parts were connecting Auth0 correctly with a separate React frontend and backend API, especially callback and logout URLs. Another challenge was making TypeScript, ESM, Prisma, and the test runner work together cleanly.
-
-### What I would improve
-
-With more time, we would add more authenticated success-case tests, improve form validation, add better test database isolation, and include a richer GitHub Actions test summary.
